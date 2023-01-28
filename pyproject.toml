@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2023 peepo.world developers
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+[build-system]
+requires = ['flit-core >= 3.4']
+build-backend = 'flit_core.buildapi'
+
+[project]
+name = 'greenhouse'
+version = '0.0.0'
+description = 'The web app behind peepo.world.'
+readme = 'README.md'
+requires-python = '>= 3.7'
+license = {file = 'LICENSES/EUPL-1.2.txt'}
+authors = [
+  { name = 'Filipe Laíns', email = 'lains@riseup.net' },
+]
+
+[project.urls]
+homepage = 'https://github.com/peepo.world/greenhouse'
+
+[tool.ruff]
+line-length = 127
+select = [
+  'B',       # flake8-bugbear
+  'C4',      # flake8-comprehensions
+  'C9',      # mccabe
+  'E',       # pycodestyle
+  'F',       # pyflakes
+  'W',       # pycodestyle
+  'RUF100',  # ruff
+]

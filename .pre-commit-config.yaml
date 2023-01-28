@@ -1,0 +1,47 @@
+# SPDX-FileCopyrightText: 2023 peepo.world developers
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+ci:
+  autofix_prs: false
+  autoupdate_commit_msg: 'pre-commit: bump repositories'
+
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+  - id: check-ast
+  - id: check-builtin-literals
+  - id: check-docstring-first
+  - id: check-executables-have-shebangs
+  - id: check-merge-conflict
+  - id: check-yaml
+  - id: check-toml
+  - id: check-vcs-permalinks
+  - id: debug-statements
+  - id: double-quote-string-fixer
+  - id: end-of-file-fixer
+  - id: fix-byte-order-marker
+  - id: trailing-whitespace
+- repo: https://github.com/PyCQA/isort
+  rev: 5.12.0
+  hooks:
+  - id: isort
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: v0.0.236
+  hooks:
+  - id: ruff
+    args: [--fix, --format, grouped]
+- repo: https://github.com/fsfe/reuse-tool
+  rev: v1.1.0
+  hooks:
+  - id: reuse
+    name: add SPDX license headers
+    args: [annotate, --license=EUPL-1.2, --skip-unrecognised]
+    pass_filenames: true
+  - id: reuse
+    name: add SPDX copyright headers
+    args: [annotate, --copyright=peepo.world developers, --skip-unrecognised]
+    pass_filenames: true
+  - id: reuse
+    name: reuse lint
