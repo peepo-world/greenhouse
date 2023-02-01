@@ -8,7 +8,7 @@ from starlette.templating import Jinja2Templates
 
 
 templates = Jinja2Templates(
-    directory=importlib.resources.files('greenhouse.web.templates'),
+    directory=importlib.resources.files('templates'),
 )
 
 
