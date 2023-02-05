@@ -14,3 +14,4 @@ templates = Jinja2Templates(
 
 async def homepage(request):
     return templates.TemplateResponse('index.html', {'request': request})
+
