@@ -23,8 +23,10 @@ async def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.post("/users")
+@router.post("/users", response_model=User, status_code=201)
 async def create_new_user(user: UserCreate, db: Session = Depends(get_db)):
-    user = get_user_by_email(db=db, user_email=user.email)
-    if user:
+    db_user = get_user_by_email(db=db, user_email=user.email)
+    if db_user:
         raise HTTPException(status_code=400, detail="This email has already been registered.")
+    print(user)
+    return create_user(db=db, user=user)

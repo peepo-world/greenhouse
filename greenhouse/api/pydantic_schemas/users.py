@@ -1,15 +1,15 @@
-from typing import List
-
 from pydantic import BaseModel
+from pydantic.schema import Optional
 
-users = list()
 
 class UserBase(BaseModel):
-    user_name:str
+    user_name: str
     email: str
+
 
 class UserCreate(UserBase):
     password: str
+
 
 class User(UserBase):
     id: int
