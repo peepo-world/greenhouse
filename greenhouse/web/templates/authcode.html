@@ -1,0 +1,25 @@
+<script
+  src="https://code.jquery.com/jquery-3.6.3.min.js"
+  integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+  crossorigin="anonymous"></script>
+
+<script>
+    // Parse url for token, token type, and scope
+    const hash2Obj = document.location.search.toString()
+      .split("&")
+      .map(v => v.split("="))
+      .reduce( (pre, [key, value]) => ({ ...pre, [key]: value }), {} );
+
+    var access_token = hash2Obj['?code'];
+    var scope = hash2Obj['scope']
+
+    var jqxhr = $.get( "/setvariables/" + access_token + "/" + scope)
+    .done(function(data) {
+        window.location.href = "/dashboard"
+    })
+    .fail(function() {
+        window.location.href = "/"
+    })
+
+
+</script>

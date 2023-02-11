@@ -25,6 +25,9 @@ app = Starlette(
         Route('/', routes.homepage),
         Route('/dashboard', routes.dashboard),
         Route('/top-emotes', routes.top_emotes),
+        Route('/authorize', routes.authorize),
+        Route('/authorizecode', routes.authorize_code),
+        Route('/setvariables/{access_token}/{scope}', routes.set_variables),
         Mount('/static', StaticFiles(directory='static'), name='static')
     ],
 )
