@@ -28,12 +28,12 @@ def generate_access_token(grant_type:str, code_token:str) -> str:
         "code": code_token,
         "grant_type": grant_type,
         "redirect_uri": auth_redirect_URI,
-
     }
+
     auth_response = requests.post(token_url, auth_body)
 
     auth_response_json = auth_response.json()
-
+    print(auth_response_json)
     access_token = auth_response_json['access_token']
     
     os.environ["TWITCH_ACCESS_TOKEN"] = access_token

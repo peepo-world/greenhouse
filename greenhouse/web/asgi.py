@@ -7,6 +7,7 @@ from starlette.routing import Route, Mount
 from starlette.config import Config
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
+from starlette.middleware.sessions import SessionMiddleware
 
 from sqlalchemy import create_engine, Column, Integer, String, LargeBinary, Boolean
 from sqlalchemy.ext.declarative import declarative_base
@@ -28,6 +29,8 @@ app = Starlette(
         Route('/authorize', routes.authorize),
         Route('/authorizecode', routes.authorize_code),
         Route('/setvariables/{access_token}/{token_type}', routes.set_variables),
+        Route('/getvariables', routes.get_variables),
         Mount('/static', StaticFiles(directory='static'), name='static')
     ],
 )
+app.add_middleware(SessionMiddleware, secret_key="itsakey")
