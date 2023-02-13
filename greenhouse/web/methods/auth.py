@@ -11,22 +11,24 @@ client_secret = os.environ.get("TWITCH_CLIENT_SECRET")
 auth_redirect_URI = "http://localhost:8000/authorizecode"
 
 # return access token if exists in OS env variable, otherwise call generate_access_token
-def get_access_token():
+def get_access_token(grant_type:str, code_token:str) -> str:
     access_token = os.environ.get("TWITCH_ACCESS_TOKEN")
     auth_valid = validate_access_token(access_token)
     if auth_valid:
         return access_token
-    return generate_access_token()
+    return generate_access_token(grant_type, code_token)
 
 # Generate new access token and set OS env variable
-def generate_access_token():
+def generate_access_token(grant_type:str, code_token:str) -> str:
 
     token_url = "https://id.twitch.tv/oauth2/token"
-    
     auth_body = {
         "client_id": client_id,
         "client_secret": client_secret,
-        "grant_type": "client_credentials"
+        "code": code_token,
+        "grant_type": grant_type,
+        "redirect_uri": auth_redirect_URI,
+
     }
     auth_response = requests.post(token_url, auth_body)
 
@@ -53,6 +55,19 @@ def validate_access_token(access_token):
     
     return False
 
+def get_user_info(access_token:str):
+    user_info_url ='https://id.twitch.tv/oauth2/userinfo'
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {access_token}"
+    }
+
+    response = requests.get(user_info_url, headers=headers)
+    response_json = response.json()
+
+    return response_json
+    
 # Create general headers for requests to twitch
 def get_auth_headers(access_token=None):
     if not access_token:
@@ -70,15 +85,18 @@ def get_auth_headers(access_token=None):
 
 # Not sure what scopes are needed here
 # auth_redirect_uri needs to be changed when we have a live site. 
+# code
 def get_auth_url(response_type:str):
     query_params = {
         "client_id": client_id,
         "redirect_uri": auth_redirect_URI,
         "response_type": response_type,
-        "scope": 'user:read:email'
+        "scope": 'user:read:email openid'
     }
+    claims = "claims={\"userinfo\":{\"email\": null, \"preferred_username\": null}}"
     formatted_query_params = urlencode(query_params)
-    return f"https://id.twitch.tv/oauth2/authorize?{formatted_query_params}"
+    print(f"https://id.twitch.tv/oauth2/authorize?{formatted_query_params}&{claims}")
+    return f"https://id.twitch.tv/oauth2/authorize?{formatted_query_params}&{claims}"
 
 
 def send_twitch_request(endpoint:str, params:dict, body:dict = None, method:str = "GET", headers:dict = None):
@@ -108,3 +126,15 @@ def send_twitch_request(endpoint:str, params:dict, body:dict = None, method:str 
     
     except Exception as e:
         print(e)
+
+def get_user_info(access_token: str):
+    user_info_url = 'https://id.twitch.tv/oauth2/userinfo'
+    
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+    }
+
+    response = requests.request(method="GET", url=user_info_url, headers=headers)
+    response_json = response.json()
+    return response_json

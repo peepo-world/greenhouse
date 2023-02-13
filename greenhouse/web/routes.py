@@ -26,19 +26,19 @@ async def top_emotes(request):
 
 async def homepage(request):
     
-    username = 'climintine'
-    params = {
-        "login": username,
-    }
+    # username = 'climintine'
+    # params = {
+    #     "login": username,
+    # }
 
-    response = auth.send_twitch_request(endpoint="users", params=params)
-    user_response = None
-    for user in response['data']:
-        if user['login'] == username:
-            user_response = user
+    # response = auth.send_twitch_request(endpoint="users", params=params)
+    # user_response = None
+    # for user in response['data']:
+    #     if user['login'] == username:
+    #         user_response = user
     
+    # user_auth url needs argument=token for implicit, code for code
     return templates.TemplateResponse('index.html', {
-        'twitch_user': user_response,
         'user_auth_url': auth.get_auth_url("code"), 
         'request': request})
 
@@ -51,7 +51,9 @@ async def authorize_code(request):
 
 async def set_variables(request):
     access_token = request.path_params['access_token']
-    scope = request.path_params['scope']
+    token_type = request.path_params['token_type']
 
-    return JSONResponse({'scope': scope,
-                          'access_token': access_token})
+    token = auth.get_access_token(grant_type="authorization_code", code_token=access_token)
+    print(auth.get_user_info(access_token=token))
+
+    return JSONResponse({'user_info': auth.get_user_info(access_token=access_token)})

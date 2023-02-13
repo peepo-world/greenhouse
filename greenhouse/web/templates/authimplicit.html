@@ -1,0 +1,34 @@
+<script
+  src="https://code.jquery.com/jquery-3.6.3.min.js"
+  integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+  crossorigin="anonymous"></script>
+
+<script>
+    // Parse url for token, token type, and scope
+    const hash2Obj = document.location.hash.toString()
+      .split("&")
+      .map(v => v.split("="))
+      .reduce( (pre, [key, value]) => ({ ...pre, [key]: value }), {} );
+
+    // Assign token, token type, and scope values to session storage var
+    var access_token = hash2Obj['#access_token'];
+    var token_type = hash2Obj['token_type'];
+    var scope = hash2Obj['scope'];
+
+    // var jqxhr = $.get( "/setvariables/" + token_type + "/" + access_token)
+    // .done(function(data) {
+    //     window.location.href = "/dashboard"
+    // })
+    // .fail(function() {
+    //     window.location.href = "/"
+    // })
+
+    // redirect to main page if authorization was successful
+    // if (window.sessionStorage.getItem('access_token') && window.sessionStorage.getItem('token_type') && window.sessionStorage.getItem('scope')){
+    //     window.location.href = "/"
+    // }
+    // else {
+    //     window.location.href = "/"
+    // }
+
+</script>
