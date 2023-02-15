@@ -6,12 +6,22 @@ import importlib.resources
 
 from starlette.templating import Jinja2Templates
 from starlette.responses import JSONResponse
+from starlette.requests import Request
 
 from methods import auth, db
 
+# Context processor for session stuff
+def app_context(request):
+    return {
+        'access_token': request.session["token"],
+        'user_name': request.session['user_name'],
+        'email': request.session['email'],
+        'session':request.session
+    }
 
 templates = Jinja2Templates(
     directory=importlib.resources.files('templates'),
+    context_processors=[app_context],
 )
 
 
