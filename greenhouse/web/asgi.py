@@ -30,6 +30,7 @@ app = Starlette(
         Route('/authorizecode', routes.authorize_code),
         Route('/setvariables/{access_token}/{token_type}', routes.set_variables),
         Route('/getvariables', routes.get_variables),
+        Route('/clearsession', routes.clear_session),
         Mount('/static', StaticFiles(directory='static'), name='static')
     ],
 )

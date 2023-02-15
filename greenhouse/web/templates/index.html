@@ -62,10 +62,24 @@
 
             <div class="navbar-end">
                 <div class="navbar-item">
+                        {% if user_name %}
+                        <a href="{{user_auth_url}}" class="button is-primary">
+                            {{ user_name }}
+                        </a>
+                        {% endif %}
+                </div>
+
+                <div class="navbar-item">
                     <div class="buttons">
+                        {% if not user_name %}
                         <a href="{{user_auth_url}}" class="button is-primary">
                             Log in
                         </a>
+                        {% else %}
+                        <a href="/clearsession" class="button is-primary">
+                            Log out
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -88,7 +102,11 @@
         <div class="column">
             <div class="card">
                 <div class="card-content">
+                    {% if user_name %}
                     <h2 class="title">{{ user_name }}</h2>
+                    {% else %}
+                    <h2 class="title">no user</h2>
+                    {% endif %}
                     <h3 class="subtitle">Subtitle</h3>
                 </div>
             </div>

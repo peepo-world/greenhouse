@@ -38,12 +38,17 @@ async def homepage(request):
     #         user_response = user
     
     # user_auth url needs argument=token for implicit, code for code
-    return templates.TemplateResponse('index.html', {
-        'request': request,
-        'user_auth_url': auth.get_auth_url("code"), # auth link when login button clicked
-        'user_name': request.session["user_name"]
+    if request.session:
+        return templates.TemplateResponse('index.html', {
+            'request': request,
+            'user_auth_url': auth.get_auth_url("code"), # auth link when login button clicked
+            'user_name': request.session["user_name"]
+            })
+    else:
+        return templates.TemplateResponse('index.html', {
+            'request': request,
+            'user_auth_url': auth.get_auth_url("code"), # auth link when login button clicked
         })
-
 
 async def authorize(request):
     return templates.TemplateResponse('authimplicit.html', {'request': request})
@@ -72,4 +77,9 @@ async def set_variables(request):
 async def get_variables(request):
     return JSONResponse({'access_token': request.session["token"],
                          'user_name': request.session['user_name'],
-                         'email': request.session['email']})
+                         'email': request.session['email'],
+                         "session":request.session})
+
+async def clear_session(request):
+    request.session.clear()
+    return JSONResponse({"session": request.session})

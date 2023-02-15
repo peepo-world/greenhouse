@@ -14,16 +14,15 @@ class Emote(Base):
     access = Column(Boolean)
 
     # Columns to add:
-    # image = Column(LargeBinary)
+    image = Column(LargeBinary)
     # Probably child classes or some other relationship for variants
 
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(100), unique=True, index=True, nullable=False)
-    password = Column(String(100), nullable=False)
     user_name = Column(String(50), nullable=False, unique=True)
-
+    twitch_id = Column(String(12), nullable=False, unique=True)
     profile = relationship("Profile", back_populates="owner")
 
     # Add creation time, maybe if they're active? Idk

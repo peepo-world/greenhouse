@@ -14,7 +14,7 @@ def get_users(db:Session, skip: int=0, limit: int=100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
 def create_user(db:Session, user: users.UserCreate):
-    db_user = models.User(email=user.email, user_name=user.user_name, password=user.password)
+    db_user = models.User(email=user.email, user_name=user.user_name, twitch_id=user.twitch_id)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
