@@ -5,28 +5,34 @@
 import importlib.resources
 
 from starlette.templating import Jinja2Templates
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, RedirectResponse
 from starlette.requests import Request
 
 from methods import auth, db
 
 # Context processor for session stuff
 def app_context(request):
-    return {
-        'access_token': request.session["token"],
-        'user_name': request.session['user_name'],
-        'email': request.session['email'],
-        'session':request.session
-    }
-
+    if request.session:
+        return {
+            'access_token': request.session['token'],
+            'user_name': request.session['user_name'],
+            'email': request.session['email'],
+            'session':request.session, # This is mostly here for testing. probably needs to go
+            'user_auth_url': auth.get_auth_url('code')
+        }
+    else:
+        return {
+            'access_token': None,
+            'user_name': None,
+            'email': None,
+            'session': None,
+            'user_auth_url': auth.get_auth_url('code')
+        }
+    
 templates = Jinja2Templates(
     directory=importlib.resources.files('templates'),
     context_processors=[app_context],
 )
-
-
-async def homepage(request):
-    return templates.TemplateResponse('index.html', {'request': request})
 
 async def dashboard(request):
     return templates.TemplateResponse('dashboard.html', {'request': request})
@@ -35,30 +41,8 @@ async def top_emotes(request):
     return templates.TemplateResponse('top-emotes.html', {'request': request})
 
 async def homepage(request):
-    
-    # username = 'climintine'
-    # params = {
-    #     "login": username,
-    # }
-
-    # response = auth.send_twitch_request(endpoint="users", params=params)
-    # user_response = None
-    # for user in response['data']:
-    #     if user['login'] == username:
-    #         user_response = user
-    
     # user_auth url needs argument=token for implicit, code for code
-    if request.session:
-        return templates.TemplateResponse('index.html', {
-            'request': request,
-            'user_auth_url': auth.get_auth_url("code"), # auth link when login button clicked
-            'user_name': request.session["user_name"]
-            })
-    else:
-        return templates.TemplateResponse('index.html', {
-            'request': request,
-            'user_auth_url': auth.get_auth_url("code"), # auth link when login button clicked
-        })
+    return templates.TemplateResponse('index.html', {'request': request})
 
 async def authorize(request):
     return templates.TemplateResponse('authimplicit.html', {'request': request})
@@ -85,11 +69,11 @@ async def set_variables(request):
     return JSONResponse({'user_info': auth.get_user_info(access_token=code_token)})
 
 async def get_variables(request):
-    return JSONResponse({'access_token': request.session["token"],
+    return JSONResponse({'access_token': request.session['token'],
                          'user_name': request.session['user_name'],
                          'email': request.session['email'],
                          "session":request.session})
 
 async def clear_session(request):
     request.session.clear()
-    return JSONResponse({"session": request.session})
+    return RedirectResponse("/")
