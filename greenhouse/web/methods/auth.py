@@ -16,7 +16,8 @@ def get_access_token(grant_type:str, code_token:str) -> str:
     auth_valid = validate_access_token(access_token)
     if auth_valid:
         return access_token
-    return generate_access_token(grant_type, code_token)
+    else:        
+        return generate_access_token(grant_type, code_token)
 
 # Generate new access token and set OS env variable
 def generate_access_token(grant_type:str, code_token:str) -> str:
@@ -54,6 +55,27 @@ def validate_access_token(access_token):
         return response_json
     
     return False
+
+def refresh_access_token(refresh_token:str) -> str:
+    refresh_url = "https://id.twitch.tv/oauth2/token"
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+
+    refresh_body = {
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token
+    }
+
+    formatted_body = urlencode(refresh_body)
+
+    response = requests.post(url=refresh_url, headers=headers, data=formatted_body)
+    response_json = response.json()
+
+    return response_json
+
 
 def get_user_info(access_token:str):
     user_info_url ='https://id.twitch.tv/oauth2/userinfo'
@@ -95,7 +117,7 @@ def get_auth_url(response_type:str):
     }
     claims = "claims={\"userinfo\":{\"email\": null, \"preferred_username\": null}}"
     formatted_query_params = urlencode(query_params)
-    print(f"https://id.twitch.tv/oauth2/authorize?{formatted_query_params}&{claims}")
+    # print(f"https://id.twitch.tv/oauth2/authorize?{formatted_query_params}&{claims}")
     return f"https://id.twitch.tv/oauth2/authorize?{formatted_query_params}&{claims}"
 
 
