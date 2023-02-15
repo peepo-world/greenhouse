@@ -7,7 +7,6 @@ import importlib.resources
 from starlette.templating import Jinja2Templates
 from starlette.responses import JSONResponse, RedirectResponse
 from starlette.requests import Request
-
 from methods import auth, db
 
 # Context processor for session stuff
@@ -44,6 +43,7 @@ async def homepage(request):
     # user_auth url needs argument=token for implicit, code for code
     return templates.TemplateResponse('index.html', {'request': request})
 
+# Not used currently. endpoint for implicity auth
 async def authorize(request):
     return templates.TemplateResponse('authimplicit.html', {'request': request})
 
@@ -56,11 +56,22 @@ async def set_variables(request):
     token_type = request.path_params['token_type']
 
     # Get access token & user info (email and username)
-    access_token = auth.get_access_token(grant_type="authorization_code", code_token=code_token)
+    access_token_dict = auth.get_access_token(grant_type="authorization_code", code_token=code_token)
+    
+    # Parse access token 
+    access_token = access_token_dict["access_token"]
+    refresh_token = access_token_dict["refresh_token"]
+    expires_in = access_token_dict["expires_in"]
+
+    # Request claims
     user_info = auth.get_user_info(access_token=access_token)
 
     # Add token properties to session
     request.session["token"] = access_token
+    request.session["refresh_token"] = refresh_token
+    request.session["expires_in"] = expires_in
+
+    # Add claims properties to session
     request.session["user_name"] = user_info['preferred_username']
     request.session["email"] = user_info['email']
 
@@ -69,10 +80,8 @@ async def set_variables(request):
     return JSONResponse({'user_info': auth.get_user_info(access_token=code_token)})
 
 async def get_variables(request):
-    return JSONResponse({'access_token': request.session['token'],
-                         'user_name': request.session['user_name'],
-                         'email': request.session['email'],
-                         "session":request.session})
+    auth.get_access_token(grant_type="authorization_code", access_token=request.session["token"], refresh_token=request.session["refresh_token"])
+    return JSONResponse({"session":request.session})
 
 async def clear_session(request):
     request.session.clear()

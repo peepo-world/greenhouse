@@ -11,16 +11,24 @@ client_secret = os.environ.get("TWITCH_CLIENT_SECRET")
 auth_redirect_URI = "http://localhost:8000/authorizecode"
 
 # return access token if exists in OS env variable, otherwise call generate_access_token
-def get_access_token(grant_type:str, code_token:str) -> str:
-    access_token = os.environ.get("TWITCH_ACCESS_TOKEN")
-    auth_valid = validate_access_token(access_token)
-    if auth_valid:
-        return access_token
-    else:        
+def get_access_token(grant_type:str, code_token:str=None, access_token:str=None, refresh_token:str=None) -> str:
+    if access_token:
+        auth_valid = validate_access_token(access_token)
+        if auth_valid:
+            print("Token Valid")
+            return access_token
+        elif refresh_token:
+            print("Token refreshed")
+            return refresh_access_token()
+    elif code_token:
+        print("Generated new token")
         return generate_access_token(grant_type, code_token)
+    
+    else:
+        ("user not logged in")
 
 # Generate new access token and set OS env variable
-def generate_access_token(grant_type:str, code_token:str) -> str:
+def generate_access_token(grant_type:str, code_token:str) -> dict:
 
     token_url = "https://id.twitch.tv/oauth2/token"
     auth_body = {
@@ -35,11 +43,8 @@ def generate_access_token(grant_type:str, code_token:str) -> str:
 
     auth_response_json = auth_response.json()
     print(auth_response_json)
-    access_token = auth_response_json['access_token']
-    
-    os.environ["TWITCH_ACCESS_TOKEN"] = access_token
 
-    return access_token
+    return auth_response_json
 
 # Check if token is exists/valid
 def validate_access_token(access_token):
@@ -101,8 +106,6 @@ def get_auth_headers(access_token=None):
         "Content-Type": "application/json",
         "Accept": "*/*"
     }
-
-
     return headers
 
 # Not sure what scopes are needed here
