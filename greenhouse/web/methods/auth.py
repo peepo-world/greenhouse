@@ -19,7 +19,7 @@ def get_access_token(grant_type:str, code_token:str=None, access_token:str=None,
             return access_token
         elif refresh_token:
             print("Token refreshed")
-            return refresh_access_token()
+            return refresh_access_token(refresh_token)
     elif code_token:
         print("Generated new token")
         return generate_access_token(grant_type, code_token)

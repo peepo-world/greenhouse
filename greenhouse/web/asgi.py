@@ -26,11 +26,12 @@ app = Starlette(
         Route('/', routes.homepage),
         Route('/dashboard', routes.dashboard),
         Route('/top-emotes', routes.top_emotes),
-        Route('/authorize', routes.authorize),
+        Route('/authorize', routes.authorize), # dont really need anymore
         Route('/authorizecode', routes.authorize_code),
         Route('/setvariables/{access_token}/{token_type}', routes.set_variables),
-        Route('/getvariables', routes.get_variables),
+        Route('/getvariables', routes.get_variables), #For testing
         Route('/clearsession', routes.clear_session),
+        Route('/upload', routes.upload, methods=["GET", "POST"]),
         Mount('/static', StaticFiles(directory='static'), name='static')
     ],
 )

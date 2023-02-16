@@ -86,3 +86,23 @@ async def get_variables(request):
 async def clear_session(request):
     request.session.clear()
     return RedirectResponse("/")
+
+async def upload(request):
+    context = {
+        'request':request
+        }
+    try:
+        form = await request.form()
+        file_name = form["file"].filename
+        file_contents = await form["file"].read()
+
+        emote_name = form["emotename"]
+        print(file_name, emote_name)
+        # f = open(file_name, "wb")
+        # f.write(file_contents)
+        # f.close()
+
+    except Exception as e:
+        print(e)
+    
+    return templates.TemplateResponse("upload.html", context)
