@@ -2,6 +2,7 @@ import requests
 import json
 from minio import Minio
 from pathlib import Path
+from urllib.parse import urlencode
 
 db_uri = 'http://127.0.0.1:8001'
 
@@ -22,6 +23,26 @@ def post_user(email:str, username:str, twitch_id: str):
     response = requests.post(user_url, data=json.dumps(body), headers=headers)
 
     return response
+
+def get_user(user_name:str = None, user_id:int = None):
+    user_url = db_uri + '/users/user?'
+
+    headers = {
+        "Content-Type": "application/json",
+        "Accepts": "*/*"
+    }
+
+    query_params = {}
+    if user_name:
+        query_params["user_name"] = user_name
+
+    if user_id:
+        query_params["user_id"] = user_id
+    formatted_query_params = urlencode(query_params)
+
+    response = requests.request(method="GET", url=user_url+formatted_query_params, headers=headers)
+    response_json = response.json()
+    return response_json
 
 def post_emote_postgres(owner_id:int, access:bool, name:str, object_name:str):
     user_url = db_uri + '/emotes'

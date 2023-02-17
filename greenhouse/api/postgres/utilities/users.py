@@ -10,6 +10,9 @@ def get_user(db:Session, user_id:int):
 def get_user_by_email(db:Session, user_email:str):
     return db.query(models.User).filter(models.User.email == user_email).first()
 
+def get_user_by_name(db:Session, user_name:str):
+    return db.query(models.User).filter(models.User.user_name == user_name).first()
+
 def get_users(db:Session, skip: int=0, limit: int=100):
     return db.query(models.User).offset(skip).limit(limit).all()
 

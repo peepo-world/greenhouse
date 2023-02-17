@@ -96,19 +96,26 @@ async def upload(request):
         'request':request
         }
     try:
+        # Get data from form and save to vars
         form = await request.form()
         file_name = form["file"].filename
         file_contents = await form["file"].read()
         file_stream = BytesIO(file_contents)
         emote_name = form["emotename"] + db.get_file_extension(file_name)
 
+        # Get user id from db
+        response = db.get_user(user_name=request.session["user_name"])
+        user_id = response["id"]
+
+        # Post data to postgres db
         response = db.post_emote_postgres(
-            owner_id=6, 
+            owner_id=user_id, 
             access=True, 
             name=emote_name, 
             object_name=emote_name
-            )
-
+        )
+        
+        # Post image file to object store 
         if response.ok:
             result = db.put_object(client=db.get_client(), 
             bucket_name="emotes", 
