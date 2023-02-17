@@ -1,5 +1,7 @@
 import requests
 import json
+from minio import Minio
+from pathlib import Path
 
 db_uri = 'http://127.0.0.1:8001'
 
@@ -20,3 +22,49 @@ def post_user(email:str, username:str, twitch_id: str):
     response = requests.post(user_url, data=json.dumps(body), headers=headers)
 
     return response
+
+def post_emote_postgres(owner_id:int, access:bool, name:str, object_name:str):
+    user_url = db_uri + '/emotes'
+
+    headers = {
+        "Content-Type": "application/json",
+        "Accepts": "*/*"
+    }
+
+    body = {
+        "owner_id": owner_id,
+        "access": access,
+        "name": name,
+        "object_name": object_name,
+    }
+
+    response = requests.post(user_url, data=json.dumps(body), headers=headers)
+
+    return response
+
+
+def put_object(client: Minio, bucket_name:str, object_name:str, object: object, file_length:int):
+    result = client.put_object (
+        bucket_name = bucket_name, 
+        object_name = object_name, 
+        data = object,
+        length = file_length
+    )
+    return result
+
+def get_object(client: Minio):
+    try:
+        response = client.fget_object("emotes", "test", "testfile.png")
+    # Read data from response.
+    finally:
+        response.close()
+        response.release_conn() 
+        return response
+
+def get_client():
+    client = Minio("127.0.0.1:9000", access_key = "minioadmin", secret_key = "minioadmin", secure = False)
+    return client
+
+def get_file_extension(file_name:str) -> str:
+    file_extension = Path(file_name).suffix
+    return file_extension

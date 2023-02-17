@@ -3,6 +3,8 @@ from starlette.config import Config
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from minio import Minio
+
 # Add env.py file with your local database_url
 from .env import DATABASE_URL
 

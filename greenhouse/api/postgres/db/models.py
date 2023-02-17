@@ -9,12 +9,13 @@ class Emote(Base):
     __tablename__ = "emote"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
+    name = Column(String) # name of emote 
     owner_id = Column(Integer, ForeignKey("users.id"))
     access = Column(Boolean)
 
+    object_name = Column(String) # name in object store
+
     # Columns to add:
-    image = Column(LargeBinary)
     # Probably child classes or some other relationship for variants
 
 class User(Base):

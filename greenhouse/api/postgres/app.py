@@ -5,8 +5,9 @@ from sqlalchemy.orm import sessionmaker
 
 from fastapi import FastAPI
 
+from minio import Minio
 from db import models
-import users
+import user_router, emote_router
 from db import db_setup
 
 models.Base.metadata.create_all(bind=db_setup.engine)
@@ -17,5 +18,8 @@ models.Base.metadata.create_all(bind=db_setup.engine)
 # SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True)
 
 app = FastAPI()
+app.include_router(user_router.router)
+app.include_router(emote_router.router)
 
-app.include_router(users.router)
+
+

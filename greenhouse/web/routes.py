@@ -7,8 +7,12 @@ import importlib.resources
 from starlette.templating import Jinja2Templates
 from starlette.responses import JSONResponse, RedirectResponse
 from starlette.requests import Request
-from methods import auth, db
 
+from io import BytesIO
+
+from os import SEEK_END
+
+from methods import auth, db
 # Context processor for session stuff
 def app_context(request):
     if request.session:
@@ -95,12 +99,24 @@ async def upload(request):
         form = await request.form()
         file_name = form["file"].filename
         file_contents = await form["file"].read()
+        file_stream = BytesIO(file_contents)
+        emote_name = form["emotename"] + db.get_file_extension(file_name)
 
-        emote_name = form["emotename"]
-        print(file_name, emote_name)
-        # f = open(file_name, "wb")
-        # f.write(file_contents)
-        # f.close()
+        response = db.post_emote_postgres(
+            owner_id=6, 
+            access=True, 
+            name=emote_name, 
+            object_name=emote_name
+            )
+
+        if response.ok:
+            result = db.put_object(client=db.get_client(), 
+            bucket_name="emotes", 
+            object_name=emote_name,
+            object=file_stream,
+            file_length=file_stream.getbuffer().nbytes
+            )
+        print(response)
 
     except Exception as e:
         print(e)
