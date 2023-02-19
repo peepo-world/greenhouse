@@ -8,4 +8,6 @@ from starlette.config import Config
 config = Config('.env')
 
 DEBUG = config('DEBUG', cast=bool, default=False)
-WEBSITE_URL = config('WEBSITE_URL', cast=str, default='http://127.0.0.1:8000')
+APP_HOST = config('APP_HOST', cast=str, default='127.0.0.1')
+APP_PORT = config('APP_PORT', cast=str, default='8000')
+APP_URL = config('APP_URL', cast=str, default=F'http://{APP_PORT}:{APP_PORT}')
