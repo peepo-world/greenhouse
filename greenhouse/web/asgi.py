@@ -2,12 +2,23 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
+import contextlib
+
+from typing import AsyncIterator
+
 from starlette.applications import Starlette
 from starlette.routing import Route
 
 import greenhouse.web
 
-from greenhouse.web import routes
+from greenhouse.web import db, routes
+
+
+@contextlib.asynccontextmanager
+async def lifespan(app) -> AsyncIterator[None]:
+    async with db.lifespan(app):
+        yield
+
 
 
 app = Starlette(
@@ -15,4 +26,5 @@ app = Starlette(
     routes=[
         Route('/', routes.homepage),
     ],
+    lifespan=lifespan,
 )
