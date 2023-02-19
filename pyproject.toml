@@ -17,6 +17,18 @@ authors = [
   { name = 'Filipe Laíns', email = 'lains@riseup.net' },
 ]
 
+dependencies = [
+  'starlette>=0.25.0',
+  'gino>=1.0',
+  'jinja2>=3.1.2',
+]
+
+[project.optional-dependencies]
+serve = [
+  'uvicorn>=0.20.0',
+  'gunicorn>=20.1.0',
+]
+
 [project.urls]
 homepage = 'https://github.com/peepo.world/greenhouse'
 
