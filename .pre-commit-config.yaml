@@ -36,12 +36,8 @@ repos:
   rev: v1.1.0
   hooks:
   - id: reuse
-    name: add SPDX license headers
-    args: [annotate, --license=EUPL-1.2, --skip-unrecognised]
-    pass_filenames: true
-  - id: reuse
-    name: add SPDX copyright headers
-    args: [annotate, --copyright=peepo.world developers, --skip-unrecognised]
+    name: add SPDX headers
+    args: [annotate, --skip-existing, --skip-unrecognised, --copyright=peepo.world developers, --license=EUPL-1.2]
     pass_filenames: true
   - id: reuse
     name: reuse lint
