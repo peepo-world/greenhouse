@@ -15,7 +15,7 @@ def get_emotes(db:Session, skip:int=0, limit=25):
 
 def create_emote(db:Session, emote:emotes.Emote):
     # Add emote to postgres db
-    db_emote = models.Emote(owner_id=emote.owner_id, access=emote.access, name=emote.name, object_name=emote.object_name)
+    db_emote = models.Emote(owner_id=emote.owner_id, access=emote.access, name=emote.name, object_name=emote.object_name, command=emote.command)
     db.add(db_emote)
     db.commit()
     db.refresh(db_emote)

@@ -11,8 +11,12 @@ from starlette.requests import Request
 from io import BytesIO
 
 from os import SEEK_END
+from PIL import Image
+import base64
 
 from methods import auth, db
+
+
 # Context processor for session stuff
 def app_context(request):
     if request.session:
@@ -41,7 +45,25 @@ async def dashboard(request):
     return templates.TemplateResponse('dashboard.html', {'request': request})
 
 async def top_emotes(request):
-    return templates.TemplateResponse('top-emotes.html', {'request': request})
+    emote_dict_list = db.get_emotes_postgres()
+    # iterate response and get each image file, author from minio
+    for emote in emote_dict_list:
+
+        # Get object from minio and add to dict
+        name = emote['name']
+        object = db.get_object(client=db.get_client(), bucket_name="emotes", object_name=name)
+        image_bytes = BytesIO(object)
+        image = Image.open(image_bytes)
+        image_rs = image.resize(size=(56,56))
+        image_bytes_rs = BytesIO()
+        image_rs.save(image_bytes_rs, format="png")
+        data_src = 'data:image/png;base64,' + base64.b64encode(image_bytes_rs.getvalue()).decode('ascii')
+        emote['object'] = data_src
+
+        # Get owner's username
+        owner = db.get_user(user_id=emote["owner_id"])
+        emote['owner_name'] = owner["user_name"]
+    return templates.TemplateResponse('top-emotes.html', {'request': request, 'response': emote_dict_list})
 
 async def homepage(request):
     # user_auth url needs argument=token for implicit, code for code
@@ -102,6 +124,7 @@ async def upload(request):
         file_contents = await form["file"].read()
         file_stream = BytesIO(file_contents)
         emote_name = form["emotename"] + db.get_file_extension(file_name)
+        command = form["command"]
 
         # Get user id from db
         response = db.get_user(user_name=request.session["user_name"])
@@ -112,7 +135,8 @@ async def upload(request):
             owner_id=user_id, 
             access=True, 
             name=emote_name, 
-            object_name=emote_name
+            object_name=emote_name,
+            command=command
         )
         
         # Post image file to object store 
@@ -123,7 +147,7 @@ async def upload(request):
             object=file_stream,
             file_length=file_stream.getbuffer().nbytes
             )
-        print(response)
+            print(result)
 
     except Exception as e:
         print(e)

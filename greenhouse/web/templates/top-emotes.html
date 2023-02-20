@@ -123,10 +123,10 @@
                                 <label for="myCheckbox1">
                                     <div class="tile is-parent p-1">
                                         <article class="tile is-child box has-text-centered">
-                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
-                                            <p class="title is-size-5">Title</p>
+                                            <img src="{{ response[0]['object'] }}" alt="emote">
+                                            <p class="title is-size-5">{{response[0]['command']}}</p>
                                             <p class="subtitle is-size-6">
-                                                <a href=""> Artist</a>
+                                                <a href="">{{ response[0]['owner_name'] }}</a>
                                             </p>
                                         </article>
                                     </div>
@@ -136,10 +136,10 @@
                                 <label for="myCheckbox2">
                                     <div class="tile is-parent p-1">
                                         <article class="tile is-child box has-text-centered">
-                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
-                                            <p class="title is-size-5">Title</p>
+                                            <img src="{{ response[1]['object'] }}" alt="emote">
+                                            <p class="title is-size-5">{{response[1]['command']}}</p>
                                             <p class="subtitle is-size-6">
-                                                <a href=""> Artist</a>
+                                                <a href=""> {{response[1]['owner_name']}}</a>
                                             </p>
                                         </article>
                                     </div>
@@ -149,10 +149,10 @@
                                 <label for="myCheckbox3">
                                     <div class="tile is-parent p-1">
                                         <article class="tile is-child box has-text-centered">
-                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
-                                            <p class="title is-size-5">Title</p>
+                                            <img src="{{ response[2]['object'] }}" alt="emote">
+                                            <p class="title is-size-5">{{response[2]['command']}}</p>
                                             <p class="subtitle is-size-6">
-                                                <a href=""> Artist</a>
+                                                <a href=""> {{response[2]['owner_name']}}</a>
                                             </p>
                                         </article>
                                     </div>

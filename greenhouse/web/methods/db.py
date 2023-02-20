@@ -44,7 +44,7 @@ def get_user(user_name:str = None, user_id:int = None):
     response_json = response.json()
     return response_json
 
-def post_emote_postgres(owner_id:int, access:bool, name:str, object_name:str):
+def post_emote_postgres(owner_id:int, access:bool, name:str, object_name:str, command:str):
     user_url = db_uri + '/emotes'
 
     headers = {
@@ -57,11 +57,22 @@ def post_emote_postgres(owner_id:int, access:bool, name:str, object_name:str):
         "access": access,
         "name": name,
         "object_name": object_name,
+        "command": command
     }
 
     response = requests.post(user_url, data=json.dumps(body), headers=headers)
 
     return response
+
+def get_emotes_postgres(limit=18):
+    emote_url = db_uri + '/emotes'
+    headers = {
+        "Content-Type": "application/json",
+        "Accepts": "*/*"
+    }
+    
+    response = requests.get(emote_url, headers=headers)
+    return response.json()
 
 
 def put_object(client: Minio, bucket_name:str, object_name:str, object: object, file_length:int):
@@ -73,14 +84,15 @@ def put_object(client: Minio, bucket_name:str, object_name:str, object: object, 
     )
     return result
 
-def get_object(client: Minio):
+def get_object(client: Minio, bucket_name:str, object_name:str):
     try:
-        response = client.fget_object("emotes", "test", "testfile.png")
+        response = client.get_object(bucket_name=bucket_name, object_name=object_name)
     # Read data from response.
     finally:
+        data = response.data
         response.close()
         response.release_conn() 
-        return response
+        return data
 
 def get_client():
     client = Minio("127.0.0.1:9000", access_key = "minioadmin", secret_key = "minioadmin", secure = False)

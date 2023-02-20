@@ -13,8 +13,8 @@ class Emote(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
     access = Column(Boolean)
 
+    command = Column(String(15), nullable=False, unique=True)
     object_name = Column(String) # name in object store
-
     # Columns to add:
     # Probably child classes or some other relationship for variants
 
