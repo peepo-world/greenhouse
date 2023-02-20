@@ -73,9 +73,11 @@ async def homepage(request):
 async def authorize(request):
     return templates.TemplateResponse('authimplicit.html', {'request': request})
 
+# redirect url after oauth w/ twitch
 async def authorize_code(request):
     return templates.TemplateResponse('authcode.html', {'request': request})
 
+# set session vars after login
 async def set_variables(request):
     # save code token str and type to variables
     code_token = request.path_params['access_token']
@@ -105,14 +107,17 @@ async def set_variables(request):
     response = db.post_user(user_info['email'], user_info['preferred_username'], user_info['sub'])
     return JSONResponse({'user_info': auth.get_user_info(access_token=code_token)})
 
+# For testing session vars
 async def get_variables(request):
     auth.get_access_token(grant_type="authorization_code", access_token=request.session["token"], refresh_token=request.session["refresh_token"])
     return JSONResponse({"session":request.session})
 
+# logout endpoint
 async def clear_session(request):
     request.session.clear()
     return RedirectResponse("/")
 
+# Route for uploading emotes
 async def upload(request):
     context = {
         'request':request

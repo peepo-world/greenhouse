@@ -16,6 +16,7 @@ async def read_users(skip: int=0, limit: int=100, db: Session = Depends(get_db))
     users = get_users(db, skip=skip, limit=limit)
     return users
 
+# Get user by id or username.
 @router.get("/users/user", response_model = User)
 async def read_user(user_id: int=None, user_name: str=None, db: Session = Depends(get_db)):
     if user_id:
@@ -26,6 +27,8 @@ async def read_user(user_id: int=None, user_name: str=None, db: Session = Depend
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return user
+
+###### Replaced with parameterized query. Probably can get rid of these. ########
 # # Get user object by db id
 # @router.get("/users/{id}", response_model = User)
 # async def read_user(user_id: int, db: Session = Depends(get_db)):

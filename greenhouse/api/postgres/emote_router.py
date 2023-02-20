@@ -16,11 +16,13 @@ async def read_emotes(skip: int=0, limit: int=100, db:Session = Depends(get_db))
     emotes = get_emotes(db, skip=skip, limit=limit)
     return emotes
 
+# Get emote by ID. 
 @router.get("/emotes/{id}", response_model=Emote)
 async def read_emote(emote_id: int, db: Session = Depends(get_db)):
     emote = get_emote(db, emote_id = emote_id)
     return emote
 
+# Add emote to postgres db
 @router.post("/emotes", response_model=Emote, status_code=201)
 async def create_new_emote(emote: EmoteCreate, db: Session = Depends(get_db)):
     db_emote = get_emote_by_name(db=db, emote_name=emote.name)

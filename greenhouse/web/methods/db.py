@@ -6,6 +6,7 @@ from urllib.parse import urlencode
 
 db_uri = 'http://127.0.0.1:8001'
 
+# Add user to postgres db
 def post_user(email:str, username:str, twitch_id: str):
     user_url = db_uri + '/users'
 
@@ -24,6 +25,7 @@ def post_user(email:str, username:str, twitch_id: str):
 
     return response
 
+# Get user based on user id or user name.
 def get_user(user_name:str = None, user_id:int = None):
     user_url = db_uri + '/users/user?'
 
@@ -44,6 +46,7 @@ def get_user(user_name:str = None, user_id:int = None):
     response_json = response.json()
     return response_json
 
+# Add emote to postgres db
 def post_emote_postgres(owner_id:int, access:bool, name:str, object_name:str, command:str):
     user_url = db_uri + '/emotes'
 
@@ -64,6 +67,7 @@ def post_emote_postgres(owner_id:int, access:bool, name:str, object_name:str, co
 
     return response
 
+# Get emote data from postgres
 def get_emotes_postgres(limit=18):
     emote_url = db_uri + '/emotes'
     headers = {
@@ -74,7 +78,7 @@ def get_emotes_postgres(limit=18):
     response = requests.get(emote_url, headers=headers)
     return response.json()
 
-
+# Add img object to minio db
 def put_object(client: Minio, bucket_name:str, object_name:str, object: object, file_length:int):
     result = client.put_object (
         bucket_name = bucket_name, 
@@ -84,6 +88,7 @@ def put_object(client: Minio, bucket_name:str, object_name:str, object: object, 
     )
     return result
 
+# Get img object from minio db
 def get_object(client: Minio, bucket_name:str, object_name:str):
     try:
         response = client.get_object(bucket_name=bucket_name, object_name=object_name)
@@ -93,11 +98,13 @@ def get_object(client: Minio, bucket_name:str, object_name:str):
         response.close()
         response.release_conn() 
         return data
-
+    
+# Get local minio client
 def get_client():
     client = Minio("127.0.0.1:9000", access_key = "minioadmin", secret_key = "minioadmin", secure = False)
     return client
 
+# Parse file extension from uploaded img file in form
 def get_file_extension(file_name:str) -> str:
     file_extension = Path(file_name).suffix
     return file_extension

@@ -27,12 +27,13 @@ class User(Base):
     profile = relationship("Profile", back_populates="owner")
 
     # Add creation time, maybe if they're active? Idk
+    # Roles? editor, streamer, mod, etc.
 
 class Profile(Base):
     __tablename__ = "profiles"
     id = Column(Integer, primary_key=True, index=True)
-    first_name = Column(String(50), nullable=False)
-    last_name = Column(String(50), nullable=False)
+    first_name = Column(String(50), nullable=False) # Idk
+    last_name = Column(String(50), nullable=False) # Idk about these
     pronouns = Column(String(20))
     bio = Column(Text, nullable=True)
 
@@ -41,4 +42,7 @@ class Profile(Base):
     owner = relationship("User", back_populates="profile")
 
     # Columns to add:
-    #profile_pic = Column(LargeBinary)
+    # profile_pic large binary or add that to minio too
+
+
+    # Channel class
