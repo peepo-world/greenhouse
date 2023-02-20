@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2023 peepo.world developers
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+version: '3.8'
+services:
+  web:
+    build: ..
+    restart: always
+    environment:
+      DB_URL: postgresql://postgres:example@db/greenhouse
+    command: gunicorn greenhouse.web.asgi:app -c gunicorn.conf.py
+    ports:
+      - 8000:8000
+    links:
+      -  db
