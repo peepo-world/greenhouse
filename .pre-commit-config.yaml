@@ -24,12 +24,12 @@ repos:
   - id: fix-byte-order-marker
   - id: trailing-whitespace
 - repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: v0.0.247
+  rev: v0.0.248
   hooks:
   - id: ruff
     args: [--fix, --format, grouped, --show-fixes]
 - repo: https://github.com/fsfe/reuse-tool
-  rev: v1.1.0
+  rev: v1.1.2
   hooks:
   - id: reuse
     name: add SPDX headers
