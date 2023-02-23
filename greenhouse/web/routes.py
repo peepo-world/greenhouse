@@ -13,17 +13,32 @@ from requests_oauthlib import OAuth2Session
 import greenhouse.web
 
 
-client_id = greenhouse.web.CLIENT_ID
-client_secret = greenhouse.web.CLIENT_SECRET
-auth_redirect_URI = greenhouse.web.AUTH_REDIRECT_URI
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+twitch_client_id = greenhouse.web.TWITCH_CLIENT_ID
+twitch_client_secret = greenhouse.web.TWITCH_CLIENT_SECRET
 
+google_client_id = greenhouse.web.GOOGLE_CLIENT_ID
+google_client_secret = greenhouse.web.GOOGLE_CLIENT_SECRET
+
+auth_redirect_URI = greenhouse.web.AUTH_REDIRECT_URI
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' # Remove for production - makes it so you can use http for redirect
+############################################################################
 ####                Twitch specific endpoints, params                   ####
-authorization_base_url = "https://id.twitch.tv/oauth2/authorize"
-token_url = "https://id.twitch.tv/oauth2/token"
-userinfo_url = "https://id.twitch.tv/oauth2/userinfo"
+twitch_auth_base_url = "https://id.twitch.tv/oauth2/authorize"
+twitch_token_url = "https://id.twitch.tv/oauth2/token"
+twitch_userinfo_url = "https://id.twitch.tv/oauth2/userinfo"
 scope = ['user:read:email openid']
 claims = "claims={\"userinfo\":{\"email\": null, \"preferred_username\": null}}"
+
+############################################################################
+####                Google specific endpoints, params                   ####
+google_auth_base_url = "https://accounts.google.com/o/oauth2/v2/auth"
+google_token_url = "https://oauth2.googleapis.com/token"
+google_userinfo_url = "https://openidconnect.googleapis.com/v1/userinfo"
+google_scope = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid"
+]
 ############################################################################
 
 templates = Jinja2Templates(
@@ -31,29 +46,58 @@ templates = Jinja2Templates(
 )
 
 async def homepage(request:Request):
-    oauth_session = OAuth2Session(client_id, redirect_uri=auth_redirect_URI, scope=scope)
-    authorization_url, state = oauth_session.authorization_url(authorization_base_url, claims=claims)
-    request.session['state'] = state
-    return templates.TemplateResponse('index.html', {'request': request, 'authorization_url': authorization_url})
+    return templates.TemplateResponse('index.html', {'request': request})
+
+async def login(request:Request):
+    return templates.TemplateResponse('login.html', {'request': request})
+
+async def generate_auth_url(request:Request):
+    authenticator = request.path_params['authenticator']
+    request.session['authenticator'] = authenticator
+
+    if authenticator == 'twitch':
+        oauth_session = OAuth2Session(twitch_client_id, redirect_uri=auth_redirect_URI, scope=scope)
+        authorization_url, state = oauth_session.authorization_url(twitch_auth_base_url, claims=claims)
+        request.session['state'] = state
+        
+    if authenticator == 'youtube':
+        oauth_session = OAuth2Session(google_client_id, redirect_uri=auth_redirect_URI, scope=google_scope)
+        authorization_url, state = oauth_session.authorization_url(google_auth_base_url, access_type='offline')
+        request.session['state'] = state
+    
+    return RedirectResponse(authorization_url)
 
 # Get acces token via OIDC. JSON response of token dictionary
 async def auth(request:Request):
     # Fetch token from Twitch
-    oauth_session = OAuth2Session(client_id, redirect_uri=auth_redirect_URI, state=request.session['state'])
-    authorization_response = str(request.url)
-    token_dict = oauth_session.fetch_token(token_url, client_secret=client_secret,
-                                authorization_response=authorization_response,
-                                include_client_id=True)
-    
-    # Get User info
-    user_info = oauth_session.get(url=userinfo_url)
-    user_info_json = user_info.json()
+    if request.session['authenticator'] == 'twitch':
+        oauth_session = OAuth2Session(twitch_client_id, redirect_uri=auth_redirect_URI, state=request.session['state'])
+        authorization_response = str(request.url)
+        token_dict = oauth_session.fetch_token(twitch_token_url, client_secret=twitch_client_secret,
+                                    authorization_response=authorization_response,
+                                    include_client_id=True)
+        
+        # Get User info -> dict
+        user_info = oauth_session.get(url=twitch_userinfo_url)
+        user_info_json = user_info.json()
+
+        # username is not a field in googles userinfo 
+        request.session['username'] = user_info_json['preferred_username']
+
+    # Fetch token from Google
+    if request.session['authenticator'] == 'youtube':
+        oauth_session = OAuth2Session(google_client_id, redirect_uri=auth_redirect_URI, state=request.session['state'])
+        authorization_response = str(request.url)
+        token_dict = oauth_session.fetch_token(google_token_url, client_secret=google_client_secret,
+                                    authorization_response=authorization_response,
+                                    include_client_id=True)
+        # Get user info -> dict
+        user_info = oauth_session.get(url=google_userinfo_url)
+        user_info_json = user_info.json()
 
     # Add user/auth info to session
     request.session['access_token'] = token_dict['access_token']
     request.session['refresh_token'] = token_dict['refresh_token']
-
-    request.session['username'] = user_info_json['preferred_username']
     request.session['user_id'] = user_info_json['sub']
 
     # Return JSON of fetched token. Probably want to return RedirectResponse moving forward

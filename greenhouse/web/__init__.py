@@ -15,7 +15,10 @@ APP_URL = config('APP_URL', cast=str, default=F'http://{APP_PORT}:{APP_PORT}')
 DB_URL = config('DB_URL', cast=Secret, default='postgresql://postgres:example@localhost/greenhouse')
 
 # Twitch client id & secret
-CLIENT_ID = config('CLIENT_ID', cast=Secret, default='client_id')
-CLIENT_SECRET = config('CLIENT_SECRET', cast=Secret, default='client_secret')
-
+TWITCH_CLIENT_ID = config('TWITCH_CLIENT_ID', cast=Secret, default='client_id')
+TWITCH_CLIENT_SECRET = config('TWITCH_CLIENT_SECRET', cast=Secret, default='client_secret')
 AUTH_REDIRECT_URI = config('AUTH_REDIRECT_URI', cast=str, default=f'{APP_URL}/auth')
+
+# Google client id & secret
+GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID', cast=Secret, default='client_id')
+GOOGLE_CLIENT_SECRET = config('GOOGLE_CLIENT_SECRET', cast=Secret, default='client_secret')

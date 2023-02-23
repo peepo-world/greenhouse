@@ -35,6 +35,8 @@ app = Starlette(
     debug=greenhouse.web.DEBUG,
     routes=[
         Route('/', routes.homepage),
+        Route('/login', routes.login),
+        Route('/generate_auth_url/{authenticator}', routes.generate_auth_url),
         Route('/auth', routes.auth),
     ],
     lifespan=lifespan,
