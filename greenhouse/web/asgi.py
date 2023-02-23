@@ -37,6 +37,7 @@ app = Starlette(
         Route('/', routes.homepage),
         Route('/login', routes.login),
         Route('/generate_auth_url/{authenticator}', routes.generate_auth_url),
+        Route('/refresh_token', routes.refresh_token),
         Route('/auth', routes.auth),
     ],
     lifespan=lifespan,
