@@ -5,11 +5,9 @@
 import contextlib
 
 from typing import AsyncIterator
-
+import os
 import gino
-
 import greenhouse.web
-
 
 db = gino.Gino()
 
