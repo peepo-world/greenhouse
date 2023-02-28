@@ -12,6 +12,7 @@ SPDX-License-Identifier: EUPL-1.2
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="{{ url_for('static', path = '/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', path = '/style.scss') }}">
+    <link rel="stylesheet" href="style.scss">
     <script src="https://kit.fontawesome.com/925ae519b7.js" crossorigin="anonymous"></script>
 </head>
 
@@ -76,28 +77,7 @@ SPDX-License-Identifier: EUPL-1.2
         </div>
     </nav>
 
-    <!--hero----------->
-    <section class="hero is-primary">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title is-1" id="site-name">Site Name<h1>
-                        <h2 class="subtitle">Subtitle</h2>
-            </div>
-        </div>
-    </section>
 
-
-    <!---columns------>
-    <div class="columns">
-        <div class="column">
-            <div class="card">
-                <div class="card-content">
-                    <h2 class="title">"Short Description"</h2>
-                    <h3 class="subtitle">Subtitle</h3>
-                </div>
-            </div>
-        </div>
-    </div>
     <footer class="footer">
         <div class="content has-text-centered">
             <p>
@@ -107,7 +87,7 @@ SPDX-License-Identifier: EUPL-1.2
     </footer>
 </body>
 
-<script> //Menu script
+<script>
     document.addEventListener('DOMContentLoaded', () => {
 
         // Get all "navbar-burger" elements

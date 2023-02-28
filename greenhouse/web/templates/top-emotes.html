@@ -1,0 +1,464 @@
+<!--
+SPDX-FileCopyrightText: 2023 peepo.world developers
+SPDX-License-Identifier: EUPL-1.2
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Top Emotes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', path = '/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path = '/style.scss') }}">
+    <script src="https://kit.fontawesome.com/925ae519b7.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="">
+                <img src="https://placehold.jp/3c3753/ffffff/112x28.png?text=Logo" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <!--NAV-->
+
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">
+                    Home
+                </a>
+
+                <a class="navbar-item" href="top-emotes">
+                    Emotes
+                </a>
+
+                <a class="navbar-item" href="dashboard">
+                    Dashboard
+                </a>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        More
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item">
+                            About
+                        </a>
+                        <a class="navbar-item">
+                            Contact
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                            Report an issue
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-primary">
+                            Log in
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <script>//Menu script
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Get all "navbar-burger" elements
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+
+        });
+    </script>
+
+    <!----ASIDE---->
+
+    <nav class="tabs is-toggle has-shadow is-centered">
+        <div class="container">
+            <label for="menu-toggle" class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <input type="checkbox" id="menu-toggle" class="is-hidden" />
+            <div class="nav-right nav-menu">
+                <ul>
+                    <li class="is-active">
+                        <a class="nav-item is-tab is-hidden-tablet">
+                            Top Emotes
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item is-tab is-hidden-tablet">
+                            Trending Emotes
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item is-tab is-hidden-tablet">
+                            Shared Emotes
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item is-tab is-hidden-tablet">
+                            Global Emotes
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="main-content columns is-fullheight">
+
+        <aside class="column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">
+            <ul class="menu-list">
+                <li>
+                    <a href="#" class="is-active ">
+                        Top Emotes
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="">
+                        Trending Emotes
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="">
+                        Shared Emotes
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="">
+                        Global Emotes
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!--MAIN/TILES-->
+
+        <div class="container column">
+            <div class="section">
+                <div class="columns is-half">
+                    <div class="column is-half is-variable">
+                        <h1 class="is-size-3">Top Emotes</h1>
+                        <p>Top shared emotes</p>
+                    </div>
+                    <div class="column is-half is-variable">
+                        <div class="control has-icons-left">
+                            <input class="input is-primary" type="text" placeholder="Search">
+                            <span class="icon is-left">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-0">
+
+                <!--Tiles-->
+
+                <!---Tile Column 1/2-->
+                <div class="container column">
+                    <div class="columns is-half is-mobile">
+                        <div class="column is-one-third-mobile is-offset-2-mobile">
+
+                            <div class="tile is-ancestor">
+                                <input type="checkbox" id="myCheckbox1" />
+                                <label for="myCheckbox1">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox2" />
+                                <label for="myCheckbox2">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox3" />
+                                <label for="myCheckbox3">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="tile is-ancestor">
+                                <input type="checkbox" id="myCheckbox4" />
+                                <label for="myCheckbox4">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox5" />
+                                <label for="myCheckbox5">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox6" />
+                                <label for="myCheckbox6">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="tile is-ancestor">
+                                <input type="checkbox" id="myCheckbox7" />
+                                <label for="myCheckbox7">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox8" />
+                                <label for="myCheckbox8">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox9" />
+                                <label for="myCheckbox9">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!---Tile Column 2/2-->
+
+                        <div class="column is-one-third-mobile">
+
+                            <div class="tile is-ancestor">
+                                <input type="checkbox" id="myCheckbox10" />
+                                <label for="myCheckbox10">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox11" />
+                                <label for="myCheckbox11">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox12" />
+                                <label for="myCheckbox12">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="tile is-ancestor">
+                                <input type="checkbox" id="myCheckbox13" />
+                                <label for="myCheckbox13">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox14" />
+                                <label for="myCheckbox14">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox15" />
+                                <label for="myCheckbox15">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="tile is-ancestor">
+                                <input type="checkbox" id="myCheckbox16" />
+                                <label for="myCheckbox16">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox17" />
+                                <label for="myCheckbox17">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+
+                                <input type="checkbox" id="myCheckbox18" />
+                                <label for="myCheckbox18">
+                                    <div class="tile is-parent p-1">
+                                        <article class="tile is-child box has-text-centered">
+                                            <img src="https://placehold.jp/3d4070/ffffff/56x56.png" alt="emote">
+                                            <p class="title is-size-5">Title</p>
+                                            <p class="subtitle is-size-6">
+                                                <a href=""> Artist</a>
+                                            </p>
+                                        </article>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+
+    </section>
+
+    <!--PAGE FOOTER-->
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                Footer content goes here.
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
