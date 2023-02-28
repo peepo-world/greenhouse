@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2023 peepo.world developers
+ *
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 
 @import url("https://use.typekit.net/sfm4zwf.css");
 #site-name {
@@ -10,7 +15,7 @@ input[type="checkbox"][id^="myCheckbox"] {
   display: none;
 
   }
-  
+
   label {
     position: relative;
     cursor: pointer;
@@ -18,7 +23,7 @@ input[type="checkbox"][id^="myCheckbox"] {
     height: 100%;
     display: block;
   }
-  
+
   label:before {
     background-color: white;
     color: white;
@@ -36,12 +41,12 @@ input[type="checkbox"][id^="myCheckbox"] {
     transition-duration: 0.4s;
     transform: scale(0);
   }
-  
+
   label img {
     transition-duration: 0.2s;
     transform-origin: 50% 50%;
   }
-  
+
   :checked + label {
     border-color: #ddd;
   }
@@ -51,7 +56,7 @@ input[type="checkbox"][id^="myCheckbox"] {
     background-color: #485fc7;
     transform: scale(1);
   }
-  
+
   :checked + label img {
     transform: scale(0.9);
     /* box-shadow: 0 0 5px #333; */

@@ -28,7 +28,7 @@ app = Starlette(
         Route('/', routes.homepage),
         Route('/dashboard', routes.dashboard),
         Route('/top-emotes', routes.top_emotes),
-        Mount('/static', StaticFiles(directory='greenhouse/web/static'), name="static")
+        Mount('/static', StaticFiles(directory='greenhouse/web/static'), name='static')
     ],
     lifespan=lifespan,
 )
