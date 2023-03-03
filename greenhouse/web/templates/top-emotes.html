@@ -2,109 +2,32 @@
 SPDX-FileCopyrightText: 2023 peepo.world developers
 SPDX-License-Identifier: EUPL-1.2
 -->
+{% extends "base.html" %}
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Top Emotes</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', path = '/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', path = '/style.scss') }}">
-    <script src="https://kit.fontawesome.com/925ae519b7.js" crossorigin="anonymous"></script>
+    {% block head %}
+    {{super()}}
+    {% endblock %}
 </head>
 
 <body>
 
     <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="">
-                <img src="https://placehold.jp/3c3753/ffffff/112x28.png?text=Logo" width="112" height="28">
-            </a>
-
-            <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <!--NAV-->
-
-        <div id="navMenu" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="/">
-                    Home
-                </a>
-
-                <a class="navbar-item" href="top-emotes">
-                    Emotes
-                </a>
-
-                <a class="navbar-item" href="dashboard">
-                    Dashboard
-                </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        More
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            About
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Report an issue
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-primary">
-                            Log in
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% block navbar %}
+        {{super()}}
+        {% endblock %}
     </nav>
 
 
 
-    <script>//Menu script
-        document.addEventListener('DOMContentLoaded', () => {
-
-            // Get all "navbar-burger" elements
-            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-            // Add a click event on each of them
-            $navbarBurgers.forEach(el => {
-                el.addEventListener('click', () => {
-
-                    // Get the target from the "data-target" attribute
-                    const target = el.dataset.target;
-                    const $target = document.getElementById(target);
-
-                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                    el.classList.toggle('is-active');
-                    $target.classList.toggle('is-active');
-
-                });
-            });
-
-        });
-    </script>
+    {% block menuscript%}
+    {{super()}}
+    {% endblock %}
 
     <!----ASIDE---->
+    {% block content %}
 
     <nav class="tabs is-toggle has-shadow is-centered">
         <div class="container">
@@ -449,15 +372,14 @@ SPDX-License-Identifier: EUPL-1.2
 
 
     </section>
+    {% endblock %}
 
     <!--PAGE FOOTER-->
 
     <footer class="footer">
-        <div class="content has-text-centered">
-            <p>
-                Footer content goes here.
-            </p>
-        </div>
+        {% block footer %}
+        {{ super()}}
+        {% endblock %}
     </footer>
 </body>
 
