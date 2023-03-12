@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2023 peepo.world developers
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: tests
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+      - release-*
+    paths-ignore:
+      - docs/**
+      - LICENSE
+      - README.md
+      - '*.license'
+
+jobs:
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+
+      - name: Install mypy
+        run: python -m pip --disable-pip-version-check install mypy==0.991
+
+      - name: Run mypy
+        run: mypy -p greenhouse
