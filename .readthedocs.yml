@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2023 peepo.world developers
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+version: 2
+
+python:
+  version: 3.8
+  install:
+    - method: pip
+      path: .
+      extra_requirements: [docs]
