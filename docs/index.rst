@@ -16,8 +16,8 @@ greenhouse
    :target: https://github.com/peepo-world/greenhouse/actions/workflows/tests.yml
    :alt: Github Action 'tests' workflow status
 
-.. image:: https://readthedocs.org/projects/greenhouse/badge/?version=stable
-   :target: https://greenhouse.readthedocs.io/en/stable/?badge=stable
+.. image:: https://readthedocs.org/projects/greenhouse/badge/?version=latest
+   :target: https://greenhouse.readthedocs.io/en/stable/?badge=latest
    :alt: Documentation Status
 
 
