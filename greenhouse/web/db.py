@@ -7,6 +7,7 @@ import contextlib
 from typing import AsyncIterator
 
 import gino
+import starlette.applications
 
 import greenhouse.web
 
@@ -14,7 +15,7 @@ import greenhouse.web
 db = gino.Gino()
 
 
-class User(db.Model):
+class User(db.Model):  # type: ignore[name-defined,misc]
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -24,7 +25,7 @@ class User(db.Model):
 # TODO: NativeLogin
 
 
-class TwitchLogin(db.Model):
+class TwitchLogin(db.Model):  # type: ignore[name-defined,misc]
     __tablename__ = 'twitch_login'
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -32,7 +33,7 @@ class TwitchLogin(db.Model):
 
 
 @contextlib.asynccontextmanager
-async def lifespan(app) -> AsyncIterator[None]:
+async def lifespan(app: starlette.applications.Starlette) -> AsyncIterator[None]:
     async with db.with_bind(str(greenhouse.web.DB_URL)):
         await db.gino.create_all()
 

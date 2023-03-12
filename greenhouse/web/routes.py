@@ -4,6 +4,8 @@
 
 import importlib.resources
 
+from starlette.responses import Response
+from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 
 
@@ -12,5 +14,5 @@ templates = Jinja2Templates(
 )
 
 
-async def homepage(request):
+async def homepage(request: Request) -> Response:
     return templates.TemplateResponse('index.html', {'request': request})
