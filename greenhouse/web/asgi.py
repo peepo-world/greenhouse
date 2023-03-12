@@ -15,7 +15,7 @@ from greenhouse.web import db, routes
 
 
 @contextlib.asynccontextmanager
-async def lifespan(app) -> AsyncIterator[None]:
+async def lifespan(app: Starlette) -> AsyncIterator[None]:
     async with db.lifespan(app):
         yield
 
