@@ -12,6 +12,9 @@ greenhouse
    :target: https://results.pre-commit.ci/latest/github/peepo-world/greenhouse/main
    :alt: pre-commit.ci status
 
+.. image:: https://github.com/peepo-world/greenhouse/actions/workflows/tests.yml/badge.svg
+   :target: https://github.com/peepo-world/greenhouse/actions/workflows/tests.yml
+   :alt: Github Action 'tests' workflow status
 
 .. image:: https://readthedocs.org/projects/greenhouse/badge/?version=stable
    :target: https://greenhouse.readthedocs.io/en/stable/?badge=stable
