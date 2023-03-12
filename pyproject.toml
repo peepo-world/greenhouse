@@ -11,7 +11,7 @@ name = 'greenhouse'
 version = '0.0.0'
 description = 'The web app behind peepo.world.'
 readme = 'README.md'
-requires-python = '>= 3.7'
+requires-python = '>= 3.9'
 license = {file = 'LICENSES/EUPL-1.2.txt'}
 authors = [
   { name = 'Filipe Laíns', email = 'lains@riseup.net' },

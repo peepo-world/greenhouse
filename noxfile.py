@@ -33,7 +33,7 @@ def docs(session):
             print('Unsupported argument to docs')
 
 
-@nox.session(python='3.7')
+@nox.session(python='3.9')
 def mypy(session):
     session.install('mypy==0.991')
 
