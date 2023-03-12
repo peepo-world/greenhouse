@@ -56,3 +56,8 @@ select = [
 [tool.ruff.isort]
 lines-between-types = 1
 lines-after-imports = 2
+
+[tool.mypy]
+show_error_codes = true
+ignore_missing_imports = true
+strict = true
