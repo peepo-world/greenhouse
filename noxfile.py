@@ -5,7 +5,7 @@
 import nox
 
 
-nox.options.sessions = ['docs']
+nox.options.sessions = ['docs', 'mypy']
 nox.options.reuse_existing_virtualenvs = True
 
 
@@ -31,3 +31,10 @@ def docs(session):
             session.run('sphinx-autobuild', *sphinx_build_args)
         else:
             print('Unsupported argument to docs')
+
+
+@nox.session(python='3.7')
+def mypy(session):
+    session.install('mypy==0.991')
+
+    session.run('mypy', '-p', 'greenhouse')
