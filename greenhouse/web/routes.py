@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: EUPL-1.2
 
 import importlib.resources
-
+from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 
 
@@ -12,11 +12,11 @@ templates = Jinja2Templates(
 )
 
 
-async def homepage(request):
+async def homepage(request: Request) -> Jinja2Templates:
     return templates.TemplateResponse('index.html', {'request': request})
 
-async def dashboard(request):
+async def dashboard(request: Request) -> Jinja2Templates:
     return templates.TemplateResponse('dashboard.html', {'request': request})
 
-async def top_emotes(request):
+async def top_emotes(request: Request) -> Jinja2Templates:
     return templates.TemplateResponse('top-emotes.html', {'request': request})
