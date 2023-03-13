@@ -1,0 +1,35 @@
+<!--
+SPDX-FileCopyrightText: 2023 peepo.world developers
+SPDX-License-Identifier: EUPL-1.2
+-->
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block head %}
+    {{super()}}
+    {% endblock %}
+</head>
+
+<body>
+
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        {% block navbar %}
+        {{super()}}
+        {% endblock %}
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <footer class="footer">
+        {% block footer %}
+        {{ super()}}
+        {% endblock %}
+    </footer>
+</body>
+
+{% block menuscript%}
+{{super()}}
+{% endblock %}
+
+</html>

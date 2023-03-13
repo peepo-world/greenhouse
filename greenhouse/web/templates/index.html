@@ -1,5 +1,59 @@
 <!--
 SPDX-FileCopyrightText: 2023 peepo.world developers
-
 SPDX-License-Identifier: EUPL-1.2
 -->
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block head %}
+    {{super()}}
+    {% endblock %}
+</head>
+
+<body>
+
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        {% block navbar %}
+        {{super()}}
+        {% endblock %}
+    </nav>
+
+    {% block content %}
+    <!--hero----------->
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title is-1" id="site-name">Site Name<h1>
+                        <h2 class="subtitle">Subtitle</h2>
+            </div>
+        </div>
+    </section>
+
+
+    <!---columns------>
+    <div class="columns">
+        <div class="column">
+            <div class="card">
+                <div class="card-content">
+                    <h2 class="title">"Short Description"</h2>
+                    <h3 class="subtitle">Subtitle</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    <footer class="footer">
+        {% block footer %}
+        {{ super()}}
+        {% endblock %}
+    </footer>
+</body>
+
+{% block menuscript%}
+{{super()}}
+{% endblock %}
+
+</html>

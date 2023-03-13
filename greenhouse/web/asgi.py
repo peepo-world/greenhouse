@@ -7,7 +7,8 @@ import contextlib
 from typing import AsyncIterator
 
 from starlette.applications import Starlette
-from starlette.routing import Route
+from starlette.routing import Route, Mount
+from starlette.staticfiles import StaticFiles
 
 import greenhouse.web
 
@@ -25,6 +26,9 @@ app = Starlette(
     debug=greenhouse.web.DEBUG,
     routes=[
         Route('/', routes.homepage),
+        Route('/dashboard', routes.dashboard),
+        Route('/top-emotes', routes.top_emotes),
+        Mount('/static', StaticFiles(directory='greenhouse/web/static'), name='static')
     ],
     lifespan=lifespan,
 )

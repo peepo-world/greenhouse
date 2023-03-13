@@ -16,3 +16,9 @@ templates = Jinja2Templates(
 
 async def homepage(request: Request) -> Response:
     return templates.TemplateResponse('index.html', {'request': request})
+
+async def dashboard(request):
+    return templates.TemplateResponse('dashboard.html', {'request': request})
+
+async def top_emotes(request):
+    return templates.TemplateResponse('top-emotes.html', {'request': request})
